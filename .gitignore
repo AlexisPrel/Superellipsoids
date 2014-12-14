@@ -1,0 +1,16 @@
+# ignore all
+*
+
+# except c files and output in "sol",
+!*.c
+!*.h
+!sol
+
+# gpl files and png output,
+!*.gpl
+!*.png
+
+#Makefile, readme and gitignore
+!Makefile
+!*.md
+!.gitignore

@@ -1,0 +1,7 @@
+unset key
+set style data line
+
+set term png
+set o "mc-volume.png"
+
+p [0:10] [0:32] "sol" w e
