@@ -28,9 +28,9 @@ int main (void)
         for(n=0;n < N ;n ++)
             counts[n_exp][n] = 0L;
     }
-    unsigned long seed = 1UL;
     
     // 2: random generator initialisation
+    unsigned long seed = 1UL;
     gsl_rng *r;
     r = gsl_rng_alloc (gsl_rng_taus2);
     gsl_rng_set (r, seed);
@@ -56,6 +56,8 @@ int main (void)
          sigma[n-1] = gsl_stats_sd_m(slice,1,N_exp,volume[n-1]);    // incertainty is the standard deviation of it
         printf("%d %f %f\n",n,volume[n-1],sigma[n-1]);
     }
-      
+    
+    //  5: freeing memory allocated for random generator
+    gsl_rng_free(r);
     return 0;
 }

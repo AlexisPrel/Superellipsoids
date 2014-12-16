@@ -1,24 +1,31 @@
-CC = clang
-#valgrind --leak-check=yes 
-CFLAGS = -Wall -O0 
-LFLAGS = -O0 
+CC = clang 
+CFLAGS = -Wall -g 
+LFLAGS = -g 
 LIBS = -lgsl -lm 
 GRAPH = gnuplot 
 BROWSER = google-chrome
 FILE = sol
-dir = /home/jharvard/projects/final/1
-#/path/to/dir/		#uncomment this line and line 18 if you want the output to be opened effortlessly 
+# DIR=/path	#uncomment #8 and #27 for output to be opened effortlessly 
 URL = https://github.com/AlexisPrel/Superellipsoids.git
 
-run: mc-volume graph clean kindword
 
-mc-volume: main.c 
+all: mc-volume run-careful graph clean kindword
+
+minima: mc-volume run graph
+
+mc-volume: main.c
 	${CC} $(LFLAGS) -o $@ $^ $(LIBS)
-	./mc-volume > ${FILE} 
-	
+
+run:
+	./mc-volume > ${FILE}
+
+run-careful:
+	# it is highly recommended to run with lower number of points (e.g. 2^5) when checking memory 
+	valgrind --leak-check=yes ./mc-volume > ${FILE} 
+		
 graph: mc-volume.gpl ${FILE}
 	${GRAPH} mc-volume.gpl
-	${BROWSER} ${dir}/mc-volume.png
+#	${BROWSER} ${DIR}/mc-volume.png
     
 git-first:
 	touch README.md
@@ -27,7 +34,7 @@ git-first:
 	git commit -m 'First commit'
 	git remote add origin ${URL}
 	# Done initialization
-	git-update
+	make git-update
 	
 git-update:
 	# Please make sure you have updated README.md
